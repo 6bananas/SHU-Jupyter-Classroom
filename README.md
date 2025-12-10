@@ -28,5 +28,3 @@
 
 - [nbgitpuller](https://github.com/jupyterhub/nbgitpuller)
 - [nbgrader](https://github.com/jupyter/nbgrader)
-
-JupyterHub 集成 nbgitpuller 和 nbgrader，实现 Notebook 课程材料教师发布、学生学习的多用户场景
