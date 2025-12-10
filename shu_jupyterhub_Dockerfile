@@ -1,0 +1,9 @@
+# 指定基础镜像
+FROM jupyterhub/jupyterhub:latest
+
+RUN pip install dockerspawner==12.1.0 jupyterhub-dummyauthenticator==0.3.1 jupyterhub-idle-culler==1.4.0
+
+# 将宿主机的文件复制到镜像内部
+# /srv/jupyterhub/ 是官方镜像默认的工作目录
+# 当容器启动时，JupyterHub 会自动检测这个位置是否存在配置文件并加载它
+COPY jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py

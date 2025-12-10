@@ -1,0 +1,8 @@
+{
+  "disabledExtensions": {
+    "@jupyter/nbgrader:course-list": true
+  },
+  "lockedExtensions": {
+    "@jupyter/nbgrader:course-list": true
+  }
+}

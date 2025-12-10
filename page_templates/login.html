@@ -1,0 +1,142 @@
+{% extends "page.html" %}
+
+{# 清空原有的顶部导航栏，防止干扰 #}
+{% block nav_bar %}{% endblock %}
+{% block header %}{% endblock %}
+
+{% block main %}
+
+<style>
+    /* 强制重置 body 样式，确保背景铺满 */
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); /* 深邃蓝调 */
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: auto; /* 允许小屏幕滚动 */
+    }
+
+    /* 登录容器 */
+    .login-container {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px 50px;
+        border-radius: 15px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        width: 360px;
+        text-align: center;
+        backdrop-filter: blur(10px); /* 毛玻璃特效 */
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 标题 */
+    .login-header h1 {
+        margin: 0;
+        font-size: 28px;
+        color: #1a2a6c;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .login-header p {
+        margin-top: 8px;
+        margin-bottom: 30px;
+        color: #7f8c8d;
+        font-size: 14px;
+    }
+
+    /* 输入框组 */
+    .input-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: all 0.3s;
+        box-sizing: border-box; /* 防止溢出 */
+        background-color: #f8f9fa;
+    }
+    .input-group input:focus {
+        border-color: #203a43;
+        background-color: #fff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(32, 58, 67, 0.1);
+    }
+
+    /* 登录按钮 */
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(to right, #1a2a6c, #b21f1f); /* 红蓝渐变 */
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 10px;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .copyright {
+        margin-top: 35px;
+        font-size: 13px;
+        color: #bdc3c7;       /* 浅银灰色 */
+        letter-spacing: 0.5px; /* 稍微增加一点字间距 */
+    }
+    
+</style>
+
+<div class="login-container">
+    <div class="login-header">
+        <h1>JupyterHub</h1>
+        <p>上海大学人工智能教学实验平台</p>
+    </div>
+    <form action="{{authenticator_login_url}}" method="post" role="form">
+        <input type="hidden" name="_xsrf" value="{{ xsrf_token }}"/>
+
+        <div class="input-group">
+            <label for="username_input">账号</label>
+            <input id="username_input" type="text" name="username" val="{{username}}" tabindex="1" autofocus="autofocus" placeholder="请输入学号" />
+        </div>
+
+        <div class="input-group">
+            <label for="password_input">密码</label>
+            <input id="password_input" type="password" name="password" val="{{password}}" tabindex="2" placeholder="请输入密码" />
+        </div>
+
+        <button type="submit" id="login_submit" class="btn-submit" tabindex="3">登录</button>
+    </form>
+
+    <div class="copyright">
+        &copy; 2025 Shanghai University
+    </div>
+</div>
+
+{% endblock %}

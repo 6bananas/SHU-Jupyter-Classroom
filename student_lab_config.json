@@ -1,0 +1,12 @@
+{
+  "disabledExtensions": {
+    "@jupyter/nbgrader:formgrader": true,
+    "@jupyter/nbgrader:course-list": true,
+    "@jupyter/nbgrader:create-assignment": true
+  },
+  "lockedExtensions": {
+    "@jupyter/nbgrader:formgrader": true,
+    "@jupyter/nbgrader:course-list": true,
+    "@jupyter/nbgrader:create-assignment": true
+  }
+}

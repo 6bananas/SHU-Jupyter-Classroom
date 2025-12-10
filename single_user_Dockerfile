@@ -1,0 +1,39 @@
+# 指定基础镜像
+FROM jupyter/base-notebook
+
+# 切换为 root 身份
+USER root
+
+# nbgrader 作业交换目录
+# 创建 /tmp/exchange 目录并设置权限
+RUN mkdir -p /tmp/exchange && \
+    chmod 777 /tmp/exchange && \
+    chown $NB_UID:$NB_GID /tmp/exchange
+
+# 创建全局 nbgrader 配置文件
+# 将配置写入 /etc/jupyter/nbgrader_config.py
+# Jupyter 启动时会自动扫描 /etc/jupyter 目录下的 config 文件
+RUN echo "c = get_config()" > /etc/jupyter/nbgrader_config.py && \
+    echo "c.CourseDirectory.course_id = 'SHU_AI_C'" >> /etc/jupyter/nbgrader_config.py && \
+    echo "c.Exchange.root = '/tmp/exchange'" >> /etc/jupyter/nbgrader_config.py
+
+# 确保该配置文件只有 root 能写，其他人只读
+RUN chmod 644 /etc/jupyter/nbgrader_config.py
+
+RUN pip install nbgitpuller nbgrader==0.9.5 jupyterlab-language-pack-zh-CN
+
+# 显式启用扩展
+RUN jupyter server extension enable nbgitpuller --sys-prefix
+
+# 安装 git 和中文字体
+RUN apt-get update && apt-get install -y \
+    git \
+    fonts-wqy-microhei \
+    fonts-wqy-zenhei \
+    locales && \
+    locale-gen zh_CN.UTF-8 && \
+    rm -rf /var/lib/apt/lists/* # 安装完后立即删除缓存，减小镜像体积
+
+# 如果要默认是中文 JupyterLab 界面就取消注释
+#ENV LANG=zh_CN.UTF-8
+#ENV LC_ALL=zh_CN.UTF-8
